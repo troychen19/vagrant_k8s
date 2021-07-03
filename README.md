@@ -20,6 +20,10 @@ OS Image 是使用 [chef/bento](https://github.com/chef/bento) 建立
 vagrant up
 ```
 
+# Vagrant 檔案說明
+
+# docker 私有倉庫建立
+
 
 
 
