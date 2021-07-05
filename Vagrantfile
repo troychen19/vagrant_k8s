@@ -1,20 +1,20 @@
 
 Vagrant.configure("2") do |config|
 
-  #config.vm.define "repo" do |repo|
-  #	repo.vm.box = "centos-7.9"
-  #	repo.vm.box_check_update = false
-  #	repo.vm.provider "virtualbox" do |vb|
-  #		vb.gui = false
-  #		vb.name = "docker_repo"
-
-  #		vb.memory = "1024"
-  #		vb.cpus = 1
-  #	end
+  config.vm.define "repo" do |repo|
+  	repo.vm.box = "centos-7.9"
+  	repo.vm.box_check_update = false
+	repo.vbguest.auto_update = false
+  	repo.vm.provider "virtualbox" do |vb|
+  	vb.gui = false
+  		vb.name = "nexus3"
+  		vb.memory = "4096"
+  		vb.cpus = 4
+    end
 	
-	#repo.vm.network "private_network", ip: "192.168.56.105"
-	#repo.vm.provision "shell", path: "install_docker.sh"
-  #end
+	repo.vm.network "private_network", ip: "192.168.56.105"
+	repo.vm.provision "shell", path: "install_docker.sh"
+  end
   
   config.vm.define "master" do |master|
 	master.vm.box = "centos-7.9"

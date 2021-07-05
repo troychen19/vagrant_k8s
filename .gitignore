@@ -1,2 +1,4 @@
 .vagrant
 ./init_token
+nexus-data
+dbaudit.sql
