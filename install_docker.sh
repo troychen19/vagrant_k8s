@@ -46,8 +46,9 @@ systemctl enable docker
 systemctl start docker
 
 mkdir /vagrant/nexus-data && chown -R 200 /vagrant/nexus-data
-docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 8084:8084 -p 8085:8085\
-    --name nexus -v /vagrant/nexus-data:/nexus-data sonatype/nexus3
+docker run -d --restart always \
+-p 8081:8081 -p 8082:8082 -p 8083:8083 -p 8084:8084 -p 8085:8085 \
+--name nexus -v /vagrant/nexus-data:/nexus-data sonatype/nexus3
 
 
 
