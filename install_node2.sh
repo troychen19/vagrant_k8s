@@ -7,7 +7,7 @@ cat >> /etc/hosts <<EOF
 192.168.56.101 master
 192.168.56.102 node1
 192.168.56.103 node2
-192.168.56.105 nexus3
+192.168.56.105 repo
 EOF
 				
 # disable selinux
