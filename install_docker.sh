@@ -32,7 +32,7 @@ sudo yum-config-manager \
 https://download.docker.com/linux/centos/docker-ce.repo
 
 yum -y update
-yum -y install docker-ce docker-ce-cli
+yum -y install docker-ce docker-ce-cli ntp
 
 #Timezone
 cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
@@ -45,7 +45,8 @@ systemctl enable ntpd
 systemctl enable docker
 systemctl start docker
 
-mkdir /vagrant/nexus-data && chown -R 200 /vagrant/nexus-data
+# 在 linux 中可能權限的關係，無法寫入 /vagrant/nexus 的目錄
+mkdir /vagrant/nexus-data && chown -R 1000 /vagrant/nexus-data
 docker run -d --restart always \
 -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 8084:8084 -p 8085:8085 \
 --name nexus -v /vagrant/nexus-data:/nexus-data sonatype/nexus3
