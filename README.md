@@ -19,26 +19,30 @@ master.vm.network "public_network", ip: "192.168.10.46", bridge: "eth0"
 ```
 
 # 執行順序
-1. 啟動 vagrant
+1. 啟動 repo 並建立好 private repo
+```
+vagrant up repo
+```
+2. 啟動 vagrant
 ```bash
 vagrant up
 ```
-2. 在 master 的帳號加入 config 設定
+3. 在 master 的帳號加入 config 設定
 ```bash
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
-3. 查詢 join node token
+4. 查詢 join node token
 ```bash
 cat .\init_token
 ```
-4. 將 node2、node3 加入 master
+5. 將 node2、node3 加入 master
 ```bash
 kubeadm join 192.168.56.101:6443 --token <token> \
 	--discovery-token-ca-cert-hash <hash> 
 ```
-5. 檢查是否正確
+6. 檢查是否正確
 ```
 kubectl get nodes
 ```

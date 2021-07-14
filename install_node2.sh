@@ -55,19 +55,27 @@ yum -y update
 yum -y install docker-ce docker-ce-cli
 yum -y install kubelet kubeadm kubectl
 		
-#Enable Firewall
-systemctl enable firewalld
-systemctl start firewalld
-firewall-cmd --permanent --add-port=3000-5000/tcp
-firewall-cmd --permanent --add-port=30000-32767/tcp
-firewall-cmd --permanent --add-port=6443/tcp
-firewall-cmd --permanent --add-port=2379-2380/tcp
-firewall-cmd --permanent --add-port=10250/tcp
-firewall-cmd --permanent --add-port=10251/tcp
-firewall-cmd --permanent --add-port=10252/tcp
-firewall-cmd --permanent --add-port=10255/tcp
-firewall-cmd –-reload
+#Enable iptable
+systemctl stop firewalld
+systemctl disable firewalld
+systemctl start iptables
+systemctl enable iptables
+
+cat <<EOF > /etc/sysconfig/iptables
+#--- Master Node
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 6443 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 2379:2380 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 10250:10252 -j ACCEPT
+#--- Worker Node
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 10250 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 3000:5000 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 30000:32767 -j ACCEPT
+EOF
+systemctl restart iptables
+
+# enable br_netfilter
 modprobe br_netfilter
+echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
 #Timezone
 cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
@@ -82,6 +90,9 @@ systemctl start docker
 
 cat <<EOF > /etc/docker/daemon.json
 {
+"insecure-registries":[
+    "192.168.56.105:8083",
+    "repo:8083"],
 "exec-opts":["native.cgroupdriver=systemd"]
 }
 EOF
