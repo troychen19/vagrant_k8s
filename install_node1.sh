@@ -59,6 +59,7 @@ yum -y install kubelet kubeadm kubectl
 systemctl enable firewalld
 systemctl start firewalld
 firewall-cmd --permanent --add-port=3000-5000/tcp
+firewall-cmd --permanent --add-port=30000-32767/tcp
 firewall-cmd --permanent --add-port=6443/tcp
 firewall-cmd --permanent --add-port=2379-2380/tcp
 firewall-cmd --permanent --add-port=10250/tcp
