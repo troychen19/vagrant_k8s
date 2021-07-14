@@ -94,7 +94,7 @@ cat <<EOF > /etc/docker/daemon.json
 "insecure-registries":[
     "192.168.56.105:8083",
     "repo:8083"],
-"exec-opts":["native.cgroupdriver=systemd"],
+"exec-opts":["native.cgroupdriver=systemd"]
 }
 EOF
 

@@ -42,8 +42,8 @@ Vagrant.configure("2") do |config|
 		vb.gui = false
 		vb.name = "k8s_node1"
 
-		vb.memory = "1024"
-		vb.cpus = 1
+		vb.memory = "2048"
+		vb.cpus = 2
 	end
 	
 	node1.vm.network "private_network", ip: "192.168.56.102"
@@ -59,8 +59,8 @@ Vagrant.configure("2") do |config|
 		vb.gui = false
 		vb.name = "k8s_node2"
 
-		vb.memory = "1024"
-		vb.cpus = 1
+		vb.memory = "2048"
+		vb.cpus = 2
 	end
 	
 	node2.vm.network "private_network", ip: "192.168.56.103"

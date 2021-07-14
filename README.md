@@ -62,15 +62,26 @@ kubectl get nodes
 * 修改 /etc/docker/daemon.json
 ```json
 {
-  "insecure-registries":["192.168.56.105:8083"],
+  "insecure-registries":[
+      "192.168.56.105:8083",
+      "repo:8083"],
   "exec-opts":["native.cgroupdriver=systemd"]
 }
 ```
 * 重新啟動 docker
 * 登入
 ```
-docker login -a admin -p admin 192.168.153.105:8083
+docker login -a admin -u admin 192.168.153.105:8083
 ```
 
+# 測試 pod
 
+1. port-forward 是開啟 host port 3010 與內部 guest container 3000 溝通
+```
+kubectl port-forward node-demo --address 0.0.0.0 3000:3010
+```
+2. 建立與 pod 同一個 node 的 service，因此只需查 pod 在哪個 node 就可測試
+```
+ kubectl expose pod node-demo --type=NodePort --name=demo-service
+```
 
